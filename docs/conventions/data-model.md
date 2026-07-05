@@ -30,7 +30,7 @@ CREATE POLICY tenant_isolation ON agents
 
 **Connect as a non-superuser** (the app role), because Postgres superusers/table owners bypass RLS. The migration/admin role is separate from the runtime role.
 
-**Global (non-tenant) tables** — the only tables *without* `org_id`: `orgs`, `users`, `identities`, `installations` (GitHub installs, which then map to an org). Everything product-domain is tenant-scoped.
+**Global (non-tenant) tables** — the only tables *without* `org_id`: `orgs`, `users`, `identities`. GitHub `installations` are tenant-scoped because they are connected to exactly one AgentGit org. Everything product-domain is tenant-scoped.
 
 ---
 
