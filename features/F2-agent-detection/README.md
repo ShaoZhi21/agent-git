@@ -1,7 +1,7 @@
 # F2 — Agent & eval detection
 
 - **Spec ref:** docs/spec.md §7 F2   · **Phase:** 1   · **Target user:** Builder
-- **Status:** not-started
+- **Status:** in-progress
 - **Sprint:** [sprint-01](../../sprints/sprint-01/)   · **Depends on:** F1 (connected repo + installation token)
 
 ## Goal
@@ -21,6 +21,8 @@ See [`PLAN.md`](PLAN.md) — broken into 3 iterative PRs.
 
 ## Worklog
 - 2026-07-06 — Feature folder + plan seeded. Not started.
+- 2026-07-06 — Starting F2.1 in `sprint01/detection-engine`: add a pure `packages/detect` agent-candidate engine with fixture-first Vitest coverage, plus an API `TreeService` that flattens mocked GitHub recursive tree responses. Scope is intentionally limited to detection candidates and repo tree read; no persistence, dashboard, or eval-command detection in this PR.
+- 2026-07-06 — F2.1 implemented. Added `@agent-git/detect` with tests for `SKILL.md`, `agents/**`, `agent.yaml`, `prompts/**`, empty repos, multiple agents, and content-backed `langgraph` imports. Added API `TreeService` with a mocked GitHub recursive-tree test. Verification: `pnpm build` and `pnpm test` pass. No E2E added for this PR because F2.1 exposes no user-visible flow; F2.2 owns persistence/API/dashboard E2E.
 
 ## Out of scope
-Checkpoints (F3), eval running (F4). Detection only persists metadata.
+Checkpoints (F3), eval running (F4). F2.1 also excludes persistence, dashboard rendering, `agentgit.yaml`, and eval-command detection; those are F2.2/F2.3.
