@@ -80,7 +80,8 @@ This repo is designed to be **AI-native** — optimized for heavy AI-assisted de
 | [`docs/conventions/`](docs/conventions/) | How we build: data model, API & versioning, events, auth, security. |
 | [`docs/architecture.md`](docs/architecture.md) · [`docs/glossary.md`](docs/glossary.md) | System shape · domain vocabulary. |
 | [`changes/`](changes/) | Dated decision records (ADRs). |
-| [`CLAUDE.md`](CLAUDE.md) | Operating manual for AI coding agents in this repo. |
+| [`AGENTS.md`](AGENTS.md) | Canonical operating manual for AI agents — the read-before/write-after working loop. |
+| [`sprints/`](sprints/) · [`features/`](features/) | Work tracking: current scope · one folder per feature (spec + plan + worklog). |
 
 ## Status
 

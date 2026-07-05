@@ -1,0 +1,13 @@
+[project]
+name = "agent-git-eval-sandbox"
+version = "0.0.0"
+description = "AgentGit hosted eval sandbox (Mode B): runs untrusted evals in isolation and POSTs results back over HTTP."
+requires-python = ">=3.12"
+dependencies = []
+
+# Deferred to build step 9 (F4 Mode B). Toolchain = uv.
+# Deps (FastAPI, pydantic, eval adapters) are added then.
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

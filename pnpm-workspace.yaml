@@ -1,0 +1,5 @@
+# pnpm workspace — TS packages only.
+# services/eval-sandbox is Python (its own toolchain, uv) and is intentionally excluded.
+packages:
+  - "apps/*"
+  - "packages/*"

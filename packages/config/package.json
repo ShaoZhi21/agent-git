@@ -1,0 +1,7 @@
+{
+  "name": "@agent-git/config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared config presets (tsconfig, eslint, prettier) for the workspace.",
+  "files": ["*.json", "*.js"]
+}
