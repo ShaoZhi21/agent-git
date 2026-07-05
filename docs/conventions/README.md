@@ -18,6 +18,7 @@ How the three doc layers relate:
 | [`security.md`](security.md) | Secrets/BYOK encryption, the KMS interface, sandbox isolation. | D9, D10 |
 | [`backend-structure.md`](backend-structure.md) | NestJS modules/controllers/services, request lifecycle, ts-rest endpoints, build quirks. | — |
 | [`frontend-routing.md`](frontend-routing.md) | Next.js App Router: route groups, server components, typed routes, auth middleware, data layer. | D13 |
+| [`local-dev.md`](local-dev.md) | Running locally with live reload; packaging strategy (Docker infra + native apps). | — |
 
 All of these were locked on 2026-07-06 — see [`../../changes/2026-07-06-foundational-decisions.md`](../../changes/2026-07-06-foundational-decisions.md).
 

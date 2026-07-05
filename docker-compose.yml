@@ -1,0 +1,38 @@
+# Local DEV INFRASTRUCTURE only (Postgres + NATS).
+# The apps (web, api) run NATIVELY via `pnpm dev` (Turborepo watch) for fast HMR —
+# see docs/conventions/local-dev.md. Production images are a separate, deploy-time concern.
+name: agentgit
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: agentgit
+      POSTGRES_PASSWORD: agentgit
+      POSTGRES_DB: agentgit
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agentgit"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    # NOTE: this superuser is for migrations. The app connects as a NON-superuser
+    # role so Postgres RLS applies (see docs/conventions/data-model.md). That role
+    # is created by migrations at build step 1 (F1).
+
+  nats:
+    image: nats:2.10-alpine
+    restart: unless-stopped
+    command: ["-js", "-m", "8222"] # -js = JetStream (durable streams), -m = monitoring
+    ports:
+      - "4222:4222" # client
+      - "8222:8222" # monitoring / http
+
+  # object store (S3-compatible) is added when traces land (F4/F6) — e.g. MinIO.
+
+volumes:
+  pgdata:
