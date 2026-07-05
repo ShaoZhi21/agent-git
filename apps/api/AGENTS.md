@@ -25,7 +25,10 @@ src/
   common/filters|pipes|interceptors/   cross-cutting (problem+json, zod, logging, tenant ctx)
   health/                native module — GET /api/health
   system/                ts-rest reference — GET /api/v1/system/info
-  (feature modules added per build step: auth/, github/, checkpoints/, evals/, ...)
+  github/                GitHub App auth (F1.3): AppAuthService (App JWT +
+                         installation-token exchange, cached) + OctokitFactory
+  (feature modules added per build step: auth/, checkpoints/, evals/, ...)
+test/                    Vitest — unit + integration (msw mocks GitHub)
 ```
 
 ## Entry points
@@ -37,3 +40,4 @@ src/
 
 ## Notes (agent-maintained)
 - 2026-07-06 — NestJS skeleton implemented (Fastify, config, cross-cutting, health + ts-rest reference). Quirks (CJS libs, `@ts-rest/core` + `fastify` as direct deps, `as const` literals) documented in `docs/conventions/backend-structure.md`. Runs.
+- 2026-07-06 — F1.3: `github/` module. **`@octokit/rest` is pinned to v20** — v21+ is pure ESM and cannot be `require`d from this CJS build. `GITHUB_APP_PRIVATE_KEY` accepts PEM with literal `\n` escapes (normalized in `AppAuthService`). Installation tokens are cached per installation id with a 60s pre-expiry refresh margin. GitHub HTTP is mocked with `msw` in tests (intercepts native `fetch`, which Octokit v20 also uses).
