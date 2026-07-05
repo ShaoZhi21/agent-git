@@ -1,0 +1,45 @@
+# --- Secrets & env (NEVER commit) ---
+.env
+.env.*
+!.env.example
+*.pem            # GitHub App private key
+*.key
+secrets/
+
+# --- Node / Next.js (spec §9 web app) ---
+node_modules/
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+.turbo/
+.vercel/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Python (spec §9 eval workers) ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# --- Local data / scratch ---
+*.log
+tmp/
+scratch/
+coverage/
