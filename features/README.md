@@ -41,7 +41,7 @@
 | ID | Name | Phase | Build step (§10) | Folder |
 |---|---|---|---|---|
 | F1 | One-click GitHub install | 1 | 1 | [F1-github-connect](F1-github-connect/) |
-| F2 | Agent & eval detection | 1 | 2 | _(create when started)_ |
+| F2 | Agent & eval detection | 1 | 2 | [F2-agent-detection](F2-agent-detection/) |
 | F3 | Checkpoint creation | 1 | 3 | — |
 | F4 | Eval runner (Mode A → B) | 1 | 4, 9 | — |
 | F5 | Eval-as-property / timeline UI | 1 | 5 | — |

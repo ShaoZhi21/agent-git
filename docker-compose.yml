@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: agentgit
       POSTGRES_DB: agentgit
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432" # loopback only — never expose dev DB (weak creds) to the network
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -29,8 +29,10 @@ services:
     restart: unless-stopped
     command: ["-js", "-m", "8222"] # -js = JetStream (durable streams), -m = monitoring
     ports:
-      - "4222:4222" # client
-      - "8222:8222" # monitoring / http
+      # loopback only — the unauthenticated dev bus must not be reachable from the LAN.
+      # (apps run natively on the host, so localhost is all we need.)
+      - "127.0.0.1:4222:4222" # client
+      - "127.0.0.1:8222:8222" # monitoring / http
 
   # object store (S3-compatible) is added when traces land (F4/F6) — e.g. MinIO.
 

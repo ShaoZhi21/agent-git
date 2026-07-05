@@ -19,6 +19,7 @@ How the three doc layers relate:
 | [`backend-structure.md`](backend-structure.md) | NestJS modules/controllers/services, request lifecycle, ts-rest endpoints, build quirks. | — |
 | [`frontend-routing.md`](frontend-routing.md) | Next.js App Router: route groups, server components, typed routes, auth middleware, data layer. | D13 |
 | [`local-dev.md`](local-dev.md) | Running locally with live reload; packaging strategy (Docker infra + native apps). | — |
+| [`worktrees.md`](worktrees.md) | Multi-agent model: orchestrator + codex worktrees; how to parallelize safely. | — |
 
 All of these were locked on 2026-07-06 — see [`../../changes/2026-07-06-foundational-decisions.md`](../../changes/2026-07-06-foundational-decisions.md).
 
