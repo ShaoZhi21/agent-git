@@ -16,6 +16,7 @@ How the three doc layers relate:
 | [`events.md`](events.md) | Event envelope, subjects, schema registry, the outbox pattern, consumer rules. | D5 |
 | [`auth.md`](auth.md) | Identity (AuthN) boundary + authorization (AuthZ) layer. | D2, D3 |
 | [`security.md`](security.md) | Secrets/BYOK encryption, the KMS interface, sandbox isolation. | D9, D10 |
+| [`frontend-routing.md`](frontend-routing.md) | Next.js App Router: route groups, server components, typed routes, auth middleware. | D13 |
 
 All of these were locked on 2026-07-06 — see [`../../changes/2026-07-06-foundational-decisions.md`](../../changes/2026-07-06-foundational-decisions.md).
 

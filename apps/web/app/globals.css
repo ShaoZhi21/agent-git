@@ -1,0 +1,23 @@
+/* Minimal base. Tailwind + shadcn/ui are wired up when the UI is built (F5). */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  line-height: 1.5;
+}
