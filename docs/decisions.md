@@ -30,6 +30,7 @@ Status index of the **heavy, one-way-door decisions** for AgentGit — the ones 
 | **D11** | Observability | OpenTelemetry from day 1 | 🟢 | ✅ | [foundational](../changes/2026-07-06-foundational-decisions.md) | — |
 | **D12** | Monorepo tooling | pnpm + Turborepo | 🟡 | ✅ | [foundational](../changes/2026-07-06-foundational-decisions.md) | — |
 | **D13** | Frontend routing | Next.js App Router (built-in; no separate router) | 🟢 | ✅ | — | [frontend-routing](conventions/frontend-routing.md) |
+| **D14** | API contract mechanism | ts-rest (typed internal + public; OpenAPI-generated) | 🟡 | ✅ | [ts-rest](../changes/2026-07-06-ts-rest-over-trpc.md) | [api-and-versioning](conventions/api-and-versioning.md) · [backend-structure](conventions/backend-structure.md) |
 
 🟠 = the OSS/self-hostable *direction* is locked (by G1); the exact tool/host is a deployment detail finalized when first built.
 

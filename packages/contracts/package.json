@@ -2,14 +2,22 @@
   "name": "@agent-git/contracts",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
-  "description": "Versioned external contracts: agentgit-json + public API schemas.",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "description": "Versioned external contracts: agentgit-json + public API schemas (ts-rest).",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ts-rest/core": "^3.51.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {

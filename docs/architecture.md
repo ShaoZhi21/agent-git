@@ -11,7 +11,7 @@ High-level system shape. This is a **summary + pointer** — the authoritative d
 | Component | Stack | Responsibility |
 |---|---|---|
 | **Frontend** | Next.js (App Router) + TypeScript · Tailwind · shadcn/ui · TanStack Query | UI: dashboard, checkpoint timeline, regression + diff views, diagnosis output. Typed against the API via tRPC/OpenAPI client. |
-| **Backend API (control plane)** | NestJS + Fastify · Prisma · zod · tRPC/OpenAPI | Auth, all DB read/write, install flow, webhook receiver, event producer. Long-running service (not serverless route handlers). |
+| **Backend API (control plane)** | NestJS + Fastify · Drizzle · zod · ts-rest (typed API + OpenAPI) | Auth, all DB read/write, install flow, webhook receiver, event producer. Long-running service (not serverless route handlers). See [`conventions/backend-structure.md`](conventions/backend-structure.md). |
 | **GitHub App integration** | `@octokit/app`, `@octokit/webhooks`, `@octokit/rest` (in the API) | Installation flow, webhook receiver (`push`, `pull_request`, `installation`), repo reads, PR comments + Check Runs. |
 | **Postgres** | Supabase/Neon; `pgvector` in Phase 3 | System of record: agents, checkpoints, eval runs/cases, regressions, installs, orgs, users. |
 | **Object storage** | any S3-compatible | Large blobs — traces, raw eval output. Postgres stores metadata + a URL. |

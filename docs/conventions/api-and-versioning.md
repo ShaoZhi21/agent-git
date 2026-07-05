@@ -9,11 +9,11 @@
 | | **Internal** (frontend ⇄ our API) | **External** (anyone else depends on it) |
 |---|---|---|
 | Consumers | our own Next.js app | users' CI, the GitHub Action, webhooks, future SDK/partners |
-| Style | **tRPC** (end-to-end TS types) | **OpenAPI**-described REST, `/api/v1/...` |
+| Style | **ts-rest contract** (typed, inferred) | **ts-rest contract** → generated OpenAPI, `/api/v1/...` |
 | Versioning | none — deploy client+server together | **strict, from v1** |
 | Change freedom | rename/reshape freely | additive-only within a version |
 
-If a payload can reach a machine you don't deploy in lockstep, it's **external** — apply §2–§4.
+**Both planes use ts-rest contracts** (`packages/contracts`): the frontend gets fully-inferred types with **no codegen**, and external **OpenAPI is generated from the same contract** (`@ts-rest/open-api`). NestJS controllers implement the contracts — see [`backend-structure.md`](backend-structure.md). Why ts-rest over tRPC: [`../../changes/2026-07-06-ts-rest-over-trpc.md`](../../changes/2026-07-06-ts-rest-over-trpc.md). The difference between the planes is discipline: internal contracts evolve freely (deployed in lockstep); external ones are versioned (§2). If a payload can reach a machine you don't deploy in lockstep, it's **external**.
 
 ---
 
@@ -60,8 +60,37 @@ This is what the GitHub Action (Mode A) and hosted sandbox (Mode B) emit, and wh
 
 ## 6. Cross-cutting API rules
 
-- **OpenAPI is the source of truth** for the public plane → generate typed clients (incl. the future SDK) from it; don't hand-maintain clients.
+- **The ts-rest contract is the source of truth.** The frontend uses the ts-rest client directly (no codegen); external OpenAPI + the future SDK are generated from the same contract. Never hand-maintain a client.
 - **Error format:** one consistent shape everywhere — RFC 9457 `application/problem+json` (`type`, `title`, `status`, `detail`, `instance`). No bespoke error blobs per endpoint.
 - **Idempotency:** webhook processing dedupes on GitHub delivery id; external POSTs that create resources accept an `Idempotency-Key`. (At-least-once delivery is assumed everywhere — see [`events.md`](events.md).)
 - **Auth on public routes:** scoped tokens (per-installation / per-purpose), never a global key. See [`auth.md`](auth.md) and [`security.md`](security.md).
 - **Pagination:** cursor-based (the `id` is UUIDv7 = sortable), not offset.
+
+## 7. Consuming the API from the frontend
+
+The frontend imports the **same contract** and gets a typed client — no codegen. The client lives in `apps/web/lib/api.ts`:
+
+```ts
+import { initClient } from '@ts-rest/core';
+import { systemContract } from '@agent-git/contracts';
+
+export const api = initClient(systemContract, {
+  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api',
+  baseHeaders: {},
+});
+```
+
+Call it inside **TanStack Query** (provider is set in `apps/web/app/providers.tsx`):
+
+```ts
+const { data } = useQuery({
+  queryKey: ['system', 'info'],
+  queryFn: async () => {
+    const res = await api.info();
+    if (res.status !== 200) throw new Error('failed');
+    return res.body; // fully typed from the contract
+  },
+});
+```
+
+Server Components can call `api.*` directly (no hook). Never redefine request/response shapes in the frontend — they come from the contract.

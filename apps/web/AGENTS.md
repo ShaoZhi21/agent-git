@@ -24,13 +24,15 @@ app/
     layout.tsx                 authenticated shell
     dashboard/page.tsx         /dashboard          agent list (TODO F2)
     agents/[agentId]/page.tsx  /agents/:agentId    timeline (TODO F5)
+    providers.tsx              TanStack Query provider (client component)
+lib/api.ts                     typed ts-rest client (bound to @agent-git/contracts)
 middleware.ts                  auth-gates /dashboard + /agents/*
 next.config.ts                 typedRoutes on; transpiles workspace pkgs
 ```
-Routing is the Next.js **App Router** — see [`frontend-routing.md`](../../docs/conventions/frontend-routing.md). Real pages arrive per feature; Tailwind + shadcn/ui + the typed API client are wired when UI work starts.
+Routing is the Next.js **App Router** — see [`frontend-routing.md`](../../docs/conventions/frontend-routing.md). The data layer (TanStack Query + typed ts-rest client) is wired. Tailwind + shadcn/ui are added when UI work starts.
 
 ## Status
-Scaffold — **routing is set up** (App Router structure + config + auth middleware); pages are placeholders. First real UI: `/dashboard` (F2), then the `/agents/[agentId]` timeline (F5). `pnpm install` not yet run.
+**Built and verified** — `next build` produces `/`, `/login`, `/dashboard`, `/agents/[agentId]` + middleware; installed; typechecks. Pages are placeholders. First real UI: `/dashboard` (F2), then the `/agents/[agentId]` timeline (F5).
 
 ## Notes (agent-maintained)
-- 2026-07-06 — App Router scaffolded (route groups, typed routes, auth middleware). Supersedes the earlier "kept empty until F5" note.
+- 2026-07-06 — App Router + data layer wired (route groups, typed routes, auth middleware, TanStack Query, ts-rest client). Builds clean.

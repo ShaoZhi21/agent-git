@@ -54,6 +54,21 @@ Note the `(app)` group: it applies the authenticated layout to `/dashboard` and 
 - **Metadata:** use the `Metadata` API (export `metadata` or `generateMetadata`) in layouts/pages — not `<head>` tags.
 - **Validate untrusted route input:** if a dynamic param drives a fetch, validate it (zod) at the boundary.
 
+## Data layer (TanStack Query + ts-rest client)
+
+The app is wired for data fetching:
+- **`app/providers.tsx`** — a Client Component providing a `QueryClient` (TanStack Query). It wraps the whole tree in the root layout.
+- **`lib/api.ts`** — a typed **ts-rest** client bound to `@agent-git/contracts` (no codegen). Point it at the API via `NEXT_PUBLIC_API_URL`.
+
+Fetch pattern (full detail in [`api-and-versioning.md`](api-and-versioning.md) §7):
+```ts
+const { data } = useQuery({
+  queryKey: ['system', 'info'],
+  queryFn: async () => (await api.info()).body,
+});
+```
+Server Components may call `api.*` directly. Never redefine API shapes in the frontend — import them from the contract.
+
 ## Status
 
-Scaffolded: config (`next.config.ts`, `tsconfig.json`), root layout, the `(app)` auth group, and `middleware.ts` exist as placeholders. Real pages arrive per feature — `/dashboard` at F2, the `/agents/[agentId]` timeline at F5. `pnpm install` has not been run yet (deps resolve on first install).
+Built and verified: `next build` produces `/`, `/login`, `/dashboard`, `/agents/[agentId]`, and the middleware. Config (`next.config.ts` with `typedRoutes`), root layout + providers, the `(app)` auth group, `middleware.ts`, and the typed API client all exist. Real feature UI arrives per feature — `/dashboard` at F2, the `/agents/[agentId]` timeline at F5. Tailwind + shadcn/ui are added when UI work starts.

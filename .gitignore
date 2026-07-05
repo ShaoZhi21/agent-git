@@ -9,6 +9,7 @@ secrets/
 # --- Node / Next.js (spec §9 web app) ---
 node_modules/
 .next/
+next-env.d.ts
 out/
 dist/
 build/

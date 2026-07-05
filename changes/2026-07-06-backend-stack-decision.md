@@ -23,7 +23,7 @@ TypeScript runs end-to-end across the web tier (frontend ⇄ API) with a shared 
 - **API framework:** NestJS (+ Fastify adapter)
 - **DB + typed codegen:** Prisma (schema → typed client + migrations); Drizzle is the SQL-first alternative
 - **Runtime validation:** zod (+ `nestjs-zod`)
-- **Frontend↔API contract:** tRPC for internal APIs (zero-codegen TS↔TS); OpenAPI (`nestjs/swagger`) for GitHub-facing / public surface
+- **Frontend↔API contract:** **ts-rest** contracts (typed internal + public; OpenAPI generated). *Superseded the initial tRPC plan — see [`2026-07-06-ts-rest-over-trpc.md`](2026-07-06-ts-rest-over-trpc.md).*
 - **Messaging (queue + event bus):** NATS JetStream — *superseded the initial "BullMQ on Redis"; see [`2026-07-06-event-bus-nats.md`](2026-07-06-event-bus-nats.md)*
 - **GitHub:** `@octokit/app`, `@octokit/webhooks`, `@octokit/rest`
 - **LLM:** `@anthropic-ai/sdk`
@@ -49,4 +49,4 @@ Overrides spec §9's suggestion of "API via Next.js route handlers." Rationale: 
 - Repo will be a TS monorepo (`apps/web`, `apps/api`, `packages/shared`) + a separate `services/eval-worker` (Python) added at Mode B.
 - ~~BullMQ is Node-only on the wire...~~ **Resolved** by [`2026-07-06-event-bus-nats.md`](2026-07-06-event-bus-nats.md): messaging is **NATS JetStream** (polyglot, but the eval sandbox reports over HTTP and never consumes the bus anyway), so no cross-language broker bridge is needed and **no Redis is required** for the MVP.
 - Prisma vs Drizzle is still open — default Prisma (migration ergonomics) unless we want SQL-first.
-- tRPC vs OpenAPI split is a starting position, not final.
+- API typing resolved to **ts-rest** (see the ts-rest ADR) — contract-first, one source for typed client + OpenAPI.
