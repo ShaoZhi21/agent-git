@@ -8,7 +8,7 @@
 | Task | Feature | Build step | Status |
 |---|---|---|---|
 | GitHub App install flow + callback + webhook receiver + auth skeleton | [F1](../../features/F1-github-connect/) | 1 | not started |
-| Repo scan → detect agents + eval commands → persist + show | F2 (create folder when started) | 2 | not started |
+| Repo scan → detect agents + eval commands → persist + show | [F2](../../features/F2-agent-detection/) | 2 | in progress (F2.1 engine + tree read) |
 
 ## Definition of done
 - OAuth login works; internal `user_id` + `identities` in place (per `docs/conventions/auth.md`).

@@ -23,6 +23,7 @@ src/
   app.module.ts          root module (imports features + global interceptor)
   config/                validated env (zod) via @nestjs/config
   common/filters|pipes|interceptors/   cross-cutting (problem+json, zod, logging, tenant ctx)
+  detect/                F2 repo tree read glue (TreeService; persistence comes later)
   health/                native module — GET /api/health
   system/                ts-rest reference — GET /api/v1/system/info
   (feature modules added per build step: auth/, github/, checkpoints/, evals/, ...)
@@ -31,9 +32,11 @@ src/
 ## Entry points
 - `src/main.ts` — bootstrap. `src/app.module.ts` — module registry.
 - Reference endpoints: `health/` (native), `system/` (ts-rest contract).
+- F2.1 tree read glue: `detect/tree.service.ts` flattens GitHub recursive tree responses into `{ path }[]`.
 
 ## Status
 **Skeleton built and verified** — `pnpm build` + boots on Fastify; `/api/health` and `/api/v1/system/info` respond; 404s return `problem+json`. Feature modules start at build step 1 (F1).
 
 ## Notes (agent-maintained)
 - 2026-07-06 — NestJS skeleton implemented (Fastify, config, cross-cutting, health + ts-rest reference). Quirks (CJS libs, `@ts-rest/core` + `fastify` as direct deps, `as const` literals) documented in `docs/conventions/backend-structure.md`. Runs.
+- 2026-07-06 — Added F2.1 `TreeService` for repo tree reads. It depends on an injected installation-scoped Git tree client factory so F1's Octokit factory can be wired later without pulling GitHub auth into the pure tree-flattening test.
