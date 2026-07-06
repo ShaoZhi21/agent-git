@@ -33,6 +33,8 @@ _(fill in when the task starts — App registration, install/callback routes, to
 - 2026-07-06 — Feature folder seeded from spec §7 F1. Not started.
 - 2026-07-06 — Starting F1.1 DB foundations in `packages/db`: write UUIDv7 + RLS tests first, then add Drizzle schema, DB client, migrations/app role, and package docs. Scope is schema + RLS only; no API/GitHub flow.
 - 2026-07-06 — F1.1 complete: added Drizzle schema/client/migrations for org/user identity plus memberships/installations/repos, UUIDv7 `newId()`, tenant transaction helper, app-role RLS policies, and real Postgres RLS tests. `installations` are tenant-scoped per F1 plan; `docs/conventions/data-model.md` corrected to match. Next: F1.2 OAuth identity/session work.
+- 2026-07-06 — Starting PR #2 review fixes in `packages/db`: make RLS tests honor `DATABASE_URL`, avoid resetting existing app-role credentials, add future-table default grants, typecheck tests, and map GitHub bigint IDs without JS number precision loss. Scope remains F1.1 only.
+- 2026-07-06 — PR #2 review fixes complete: RLS test app-role URLs now reuse the configured database host/port, `0001_rls.sql` no longer rotates an existing `agentgit_app` password and grants default future-table privileges, GitHub IDs are typed as `bigint`, and package typecheck now includes DB tests.
 
 ## Out of scope
 

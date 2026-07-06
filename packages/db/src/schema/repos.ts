@@ -17,10 +17,10 @@ export const repos = pgTable(
     orgId: uuid("org_id")
       .notNull()
       .references(() => orgs.id),
-    installationId: bigint("installation_id", { mode: "number" }).references(
+    installationId: bigint("installation_id", { mode: "bigint" }).references(
       () => installations.id,
     ),
-    githubRepoId: bigint("github_repo_id", { mode: "number" }).notNull(),
+    githubRepoId: bigint("github_repo_id", { mode: "bigint" }).notNull(),
     fullName: text("full_name").notNull(),
     defaultBranch: text("default_branch").notNull().default("main"),
     createdAt: timestamp("created_at", { withTimezone: true })

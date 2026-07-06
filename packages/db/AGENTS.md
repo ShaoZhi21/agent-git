@@ -19,6 +19,7 @@ The single source of truth for the database: Drizzle schema, migrations, and the
 
 ```
 drizzle.config.ts       drizzle-kit config (schema + migrations path)
+tsconfig.test.json      typecheck project for db tests and Vitest config
 migrations/
   0000_init.sql         org/user/identity/membership/install/repo tables
   0001_rls.sql          app role + tenant RLS policies
@@ -48,3 +49,4 @@ F1.1 implemented — tenancy/identity schema, migrations, app role, and RLS proo
 
 - 2026-07-06 — scaffolded. Driver = `postgres` (postgres.js); confirm RLS session-var pattern works through it before relying on it.
 - 2026-07-06 — F1.1 added `orgs`, `users`, `identities`, `memberships`, `installations`, and `repos`; `memberships`/`installations`/`repos` have `org_id` and RLS via `app.current_org_id`. `pnpm --filter @agent-git/db test` proves app-role cross-org isolation against real Postgres.
+- 2026-07-06 — GitHub external IDs (`installations.id`, `repos.installation_id`, `repos.github_repo_id`) are Drizzle `bigint` columns mapped to TypeScript `bigint`; convert to strings at API boundaries rather than JS `number`.

@@ -2,8 +2,6 @@ DO $$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'agentgit_app') THEN
     CREATE ROLE agentgit_app LOGIN PASSWORD 'agentgit_app';
-  ELSE
-    ALTER ROLE agentgit_app WITH LOGIN PASSWORD 'agentgit_app';
   END IF;
 END
 $$;
@@ -16,6 +14,8 @@ $$;
 
 GRANT USAGE ON SCHEMA public TO agentgit_app;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO agentgit_app;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO agentgit_app;
 
 ALTER TABLE memberships ENABLE ROW LEVEL SECURITY;
 ALTER TABLE installations ENABLE ROW LEVEL SECURITY;

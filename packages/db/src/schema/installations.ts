@@ -3,7 +3,7 @@ import { bigint, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { orgs } from "./orgs";
 
 export const installations = pgTable("installations", {
-  id: bigint("id", { mode: "number" }).primaryKey(),
+  id: bigint("id", { mode: "bigint" }).primaryKey(),
   orgId: uuid("org_id")
     .notNull()
     .references(() => orgs.id),

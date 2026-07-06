@@ -24,6 +24,13 @@ function databaseUrlForDatabase(databaseUrl: string, databaseName: string) {
   return url.toString();
 }
 
+function appRoleDatabaseUrl(databaseUrl: string) {
+  const url = new URL(databaseUrl);
+  url.username = "agentgit_app";
+  url.password = appRolePassword;
+  return url.toString();
+}
+
 function quoteIdentifier(identifier: string) {
   return `"${identifier.replaceAll('"', '""')}"`;
 }
@@ -99,14 +106,14 @@ describe("tenant RLS", () => {
         {
           id: repoAId,
           orgId: orgAId,
-          githubRepoId: 101,
+          githubRepoId: 101n,
           fullName: "org-a/repo",
           defaultBranch: "main",
         },
         {
           id: repoBId,
           orgId: orgBId,
-          githubRepoId: 202,
+          githubRepoId: 202n,
           fullName: "org-b/repo",
           defaultBranch: "main",
         },
@@ -115,10 +122,7 @@ describe("tenant RLS", () => {
       await owner.close();
     }
 
-    const appRoleUrl = databaseUrlForDatabase(
-      `postgres://agentgit_app:${appRolePassword}@localhost:5432/agentgit`,
-      testDatabaseName,
-    );
+    const appRoleUrl = appRoleDatabaseUrl(testOwnerDatabaseUrl);
     const orgA = getDb({ databaseUrl: appRoleUrl, orgId: orgAId });
 
     try {
@@ -146,10 +150,7 @@ describe("tenant RLS", () => {
       await owner.close();
     }
 
-    const appRoleUrl = databaseUrlForDatabase(
-      `postgres://agentgit_app:${appRolePassword}@localhost:5432/agentgit`,
-      testDatabaseName,
-    );
+    const appRoleUrl = appRoleDatabaseUrl(testOwnerDatabaseUrl);
     const orgA = getDb({ databaseUrl: appRoleUrl, orgId: orgAId });
 
     try {
@@ -158,7 +159,7 @@ describe("tenant RLS", () => {
           tx.insert(repos).values({
             id: newId(),
             orgId: orgBId,
-            githubRepoId: 303,
+            githubRepoId: 303n,
             fullName: "org-b/blocked",
             defaultBranch: "main",
           }),
