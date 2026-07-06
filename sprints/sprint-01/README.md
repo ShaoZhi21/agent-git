@@ -7,7 +7,7 @@
 ## Scope
 | Task | Feature | Build step | Status |
 |---|---|---|---|
-| GitHub App install flow + callback + webhook receiver + auth skeleton | [F1](../../features/F1-github-connect/) | 1 | not started |
+| GitHub App install flow + callback + webhook receiver + auth skeleton | [F1](../../features/F1-github-connect/) | 1 | in progress (F1.3 ✅, F1.5 part 1 ✅; F1.1/F1.2 in parallel worktree) |
 | Repo scan → detect agents + eval commands → persist + show | F2 (create folder when started) | 2 | not started |
 
 ## Definition of done
