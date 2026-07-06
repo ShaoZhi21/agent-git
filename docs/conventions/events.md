@@ -77,6 +77,7 @@ outbox insert ─┘ ──► relay ──► NATS JetStream ──► durable 
 
 | Event | Emitted when | Key consumers |
 |---|---|---|
+| `installation.changed` | GitHub App installation created/removed/suspended or repo grant changed (F1.5) | repo-sync projections, audit |
 | `checkpoint.created` | push/PR processed (F3) | eval trigger, timeline projector |
 | `eval.completed` | eval result ingested (F4) | regression detector, timeline |
 | `regression.detected` | eval worse than baseline (F6) | PR comment, notifier, diagnosis trigger, blast-radius |

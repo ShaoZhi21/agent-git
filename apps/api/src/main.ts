@@ -13,6 +13,9 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
+    // rawBody: webhook HMAC verification signs the raw bytes, not the parsed
+    // JSON (docs/conventions/security.md §5).
+    { rawBody: true },
   );
 
   // Everything is served under /api. Public, versioned routes live under
