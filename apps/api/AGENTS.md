@@ -26,7 +26,9 @@ src/
   health/                native module — GET /api/health
   system/                ts-rest reference — GET /api/v1/system/info
   github/                GitHub App auth (F1.3): AppAuthService (App JWT +
-                         installation-token exchange, cached) + OctokitFactory
+                         installation-token exchange, cached) + OctokitFactory;
+                         webhook receiver (F1.5): HMAC-verified POST
+                         /api/github/webhooks -> WebhooksService dispatch
   (feature modules added per build step: auth/, checkpoints/, evals/, ...)
 test/                    Vitest — unit + integration (msw mocks GitHub)
 ```
@@ -41,3 +43,4 @@ test/                    Vitest — unit + integration (msw mocks GitHub)
 ## Notes (agent-maintained)
 - 2026-07-06 — NestJS skeleton implemented (Fastify, config, cross-cutting, health + ts-rest reference). Quirks (CJS libs, `@ts-rest/core` + `fastify` as direct deps, `as const` literals) documented in `docs/conventions/backend-structure.md`. Runs.
 - 2026-07-06 — F1.3: `github/` module. **`@octokit/rest` is pinned to v20** — v21+ is pure ESM and cannot be `require`d from this CJS build. `GITHUB_APP_PRIVATE_KEY` accepts PEM with literal `\n` escapes (normalized in `AppAuthService`). Installation tokens are cached per installation id with a 60s pre-expiry refresh margin. GitHub HTTP is mocked with `msw` in tests (intercepts native `fetch`, which Octokit v20 also uses).
+- 2026-07-06 — F1.5 (receiver half): `main.ts` bootstraps with **`{ rawBody: true }`** — HMAC signs raw bytes, never the parsed JSON. `WebhooksService` depends on two `@Optional()` ports: `INSTALLATION_SYNC` (real impl = F1.4 repo sync) and `EVENT_PUBLISHER` (real impl = outbox once `packages/db` lands); until then no org is mapped and publishes are skipped with a log. **Testing quirk:** vitest/esbuild does not emit decorator metadata, so DI in these classes uses explicit `@Inject(...)` tokens — do the same for anything you want to test through `Test.createTestingModule`. Webhook delivery-id dedupe is TODO with the DB wiring (api-and-versioning.md §6).
