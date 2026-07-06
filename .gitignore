@@ -44,3 +44,4 @@ Thumbs.db
 tmp/
 scratch/
 coverage/
+.vitest-cache/
