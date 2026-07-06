@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppConfigModule } from './config/config.module';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { GithubModule } from './github/github.module';
 import { HealthModule } from './health/health.module';
 import { SystemModule } from './system/system.module';
 
@@ -11,6 +12,7 @@ import { SystemModule } from './system/system.module';
     AppConfigModule,
     HealthModule, // native Nest controller (infra/liveness)
     SystemModule, // ts-rest contract reference (feature-endpoint pattern)
+    GithubModule, // GitHub App auth: JWT -> installation token -> Octokit (F1.3)
   ],
   providers: [{ provide: APP_INTERCEPTOR, useClass: LoggingInterceptor }],
 })
